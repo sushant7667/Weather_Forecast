@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+        {% load static %}
+    <title>Weather Forecast</title>
+    <!-- Include the necessary CSS and JavaScript files for Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2LCIWk4FbTrFZb_hItHNuFCfN4jpKtcI&libraries=places"></script>
+
+      <!-- CSS only -->
+    <link rel="stylesheet" href="{% static 'css/add.css' %}" />
+
+    <!-- Initialize the Google Map after the page has loaded -->
+    <script>
+        window.addEventListener('load', function() {
+            initMap();
+        });
+    </script>
+
+</head>
+<body>
+    <h1>Weather Forecast</h1>
+
+    <div id="map-container"></div>
+
+    <form method="POST" action="# " enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="input__box">
+            <label for="latitude" class="">latitude</label>
+            <input type="text" id="latitude" name="latitude">
+        </div>
+        <div class="input__box">
+            <label for="longitude" class="">longitude</label>
+            <input type="text" id="longitude" name="longitude">
+        </div>
+        <label for="detailing_type">Detailing Type:</label>
+        <select name="detailing_type" id="detailing_type">
+            <option value="Hourly">Hourly</option>
+            <option value="Daily">Daily</option>
+            <!-- Add more options if needed -->
+        </select>
+        <br>
+        <button type="submit">Get Weather Forecast</button>
+
+    </form>
+
+
+    <script>
+        // Function to initialize the Google Map
+        function initMap() {
+            // Create a map instance
+            var map = new google.maps.Map(document.getElementById('map-container'), {
+                center: {lat: 19.0760, lng: 72.8777}, // Centered on Mumbai
+                zoom: 12
+            });
+
+            // Create a marker for the selected location
+            var marker = new google.maps.Marker({
+                map: map,
+                draggable: true
+            });
+
+            // Listen for the 'dragend' event to update the latitude and longitude input fields
+            marker.addListener('dragend', function() {
+                var position = marker.getPosition();
+                document.getElementById('latitude').value = position.lat().toFixed(6);
+                document.getElementById('longitude').value = position.lng().toFixed(6);
+            });
+
+            // Add a click event listener to the map to allow location selection
+            map.addListener('click', function(event) {
+                var clickedLocation = event.latLng;
+                marker.setPosition(clickedLocation);
+                document.getElementById('latitude').value = clickedLocation.lat().toFixed(6);
+                document.getElementById('longitude').value = clickedLocation.lng().toFixed(6);
+            });
+            
+        }
+        
+    </script>
+    
+</body>
+</html>

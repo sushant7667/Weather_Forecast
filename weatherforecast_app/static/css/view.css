@@ -1,0 +1,32 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #def4ff;
+    background-size: cover;
+    }
+
+    .content {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 28px;
+    border-radius: 12px;
+    margin: 14px auto;
+    max-width: 60em;
+    }
+
+    /* Animation for table rows */
+    .table tbody tr {
+    animation: fadeInAnimation 1.3s ease-out forwards;
+    opacity: 0;
+    transform: translateY(15px);
+    }
+
+    @keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    }
